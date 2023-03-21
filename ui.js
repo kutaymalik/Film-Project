@@ -30,27 +30,48 @@ class UI {
         el.textContent = content; 
         const container = document.querySelector(doc); 
         container.appendChild(el);
+        return el;
     }
 
     displayMessages = function(message, type){
 
-        this.createElement("div", `alert alert-${type}`, message, ".card-body");
+        // Elementi oluşturma
+        const element = this.createElement("div", `alert alert-${type}`, message, ".card-body");
+        
 
-        // const cardBody = document.querySelector(".card-body");
+        // Elementi 1 sn sonra silme
+        setTimeout(function(){
+            element.remove();
+        },1000);
 
-        // // Alert Divini Oluşturma
-        // const div = document.createElement("div");
-        // div.className = `alert alert-${type}`;
-        // div.textContent = message;
+    }
 
-        // // Divi eklemek
-        // cardBody.appendChild(div);
+    loadFilmsToUI = (films) => {
+        const filmList = document.getElementById("films");
 
-        // setTimeout(function(){
-        //     div.remove();
-        // },1000);
+        films.forEach(function(film){
+            filmList.innerHTML += `
+            <tr>
+                    <td><img src="${film.url}" class="img-fluid img-thumbnail"></td>
+                    <td>${film.title}</td>
+                    <td>${film.director}</td>
+                    <td><a href="#" id = "delete-film" class = "btn btn-danger">Filmi Sil</a></td>
+            </tr>`
+        })
+    }
 
+    deleteFilmFromUI = (element) => {
 
+        element.parentElement.parentElement.remove();
+    }
+
+    clearAllFilmsFromUI = () => {
+        const filmList = document.getElementById("films");
+        // filmList.innerHTML = "";
+
+        while(filmList.firstElementChild !== null){
+            filmList.firstElementChild.remove();
+        }
     }
 
 }
